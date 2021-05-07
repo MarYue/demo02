@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import 'antd/dist/antd.css'
 import { Input, Button, List } from 'antd'
 import store from './store'  // 引入store数据仓库
+import { CHANGE_INPUT_VALIE, DELETE_ITEM, ADD_ITEM } from './store/actionTypes'
+import { changeInputAction } from './store/actionCreators'
 
 // const data = [
 //   '下午2点组会',
@@ -44,10 +46,7 @@ class TodoList extends Component {
   }
   changeInputValue(e) {
     // 要改变redux里state的值就要创建action，action是一个对象，一般有两个属性：1.对action的描述 2.要改变的值
-    const action = {
-      type: 'change_input_value',
-      value: e.target.value
-    }
+    const action = changeInputAction(e.target.value)
     // 创建好的action要通过 dispatch() 方法传递给 store
     store.dispatch(action)
   }
@@ -55,7 +54,7 @@ class TodoList extends Component {
     // 创建 action 再 dispatch 给 store
     console.log(index)
     const action = {
-      type: 'delete_item',
+      type: DELETE_ITEM,
       index
     }
     store.dispatch(action)
@@ -67,7 +66,7 @@ class TodoList extends Component {
   handleClick() {
     // 创建 action 再 dispatch 给 store
     const action = {
-      type: 'add_item'
+      type: ADD_ITEM
     }
     store.dispatch(action)
   }
