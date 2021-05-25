@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import 'antd/dist/antd.css'
 import { Input, Button, List } from 'antd'
 import store from './store'  // 引入store数据仓库
-import { CHANGE_INPUT_VALIE, DELETE_ITEM, ADD_ITEM } from './store/actionTypes'
-import { changeInputAction } from './store/actionCreators'
+// import { CHANGE_INPUT_VALIE, DELETE_ITEM, ADD_ITEM } from './store/actionTypes' // 方法封装前的引用
+import { changeInputAction, addItemAction, deleteItemAction } from './store/actionCreators' // 方法封装后的引用
 
 // const data = [
 //   '下午2点组会',
@@ -53,10 +53,12 @@ class TodoList extends Component {
   deleteItem(index) {
     // 创建 action 再 dispatch 给 store
     console.log(index)
-    const action = {
-      type: DELETE_ITEM,
-      index
-    }
+    // const action = {
+    //   type: DELETE_ITEM,
+    //   index
+    // }
+    // 用方法调用的方式
+    const action = deleteItemAction(index)
     store.dispatch(action)
   }
   storeChange() {
@@ -65,9 +67,11 @@ class TodoList extends Component {
   }
   handleClick() {
     // 创建 action 再 dispatch 给 store
-    const action = {
-      type: ADD_ITEM
-    }
+    // const action = {
+    //   type: ADD_ITEM
+    // }
+    // 用方法调用的方式
+    const action = addItemAction()
     store.dispatch(action)
   }
 }
