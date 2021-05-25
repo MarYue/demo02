@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import 'antd/dist/antd.css'
-import { Input, Button, List } from 'antd'
+// import 'antd/dist/antd.css'
+// import { Input, Button, List } from 'antd'
 import store from './store'  // 引入store数据仓库
+// import TodoListUI from './TodoListUI' // 引入样式组件
+import NoStateTodoListUI from './noStateTodoListUI' // 引入无状态组件
 // import { CHANGE_INPUT_VALIE, DELETE_ITEM, ADD_ITEM } from './store/actionTypes' // 方法封装前的引用
 import { changeInputAction, addItemAction, deleteItemAction } from './store/actionCreators' // 方法封装后的引用
 
@@ -20,28 +22,39 @@ class TodoList extends Component {
     // 获得 store 中的更新，更新组件
     this.storeChange = this.storeChange.bind(this)  // 转变 this 指向
     this.handleClick = this.handleClick.bind(this)
+    // 重新绑定 deleteItem，向子组件传递
+    this.deleteItem = this.deleteItem.bind(this)
     // 订阅 redux 的状态
     store.subscribe(this.storeChange)  
   }
   render() { 
     return ( 
-      <div>
-        <div>
-          <Input 
-            placeholder={this.state.inputValue} 
-            style={{width: '200px', margin:'10px 10px'}} 
-            onChange={this.changeInputValue} />
-          <Button onClick={this.handleClick} type="primary">增加</Button>
-        </div>
-        <div>
-          <List 
-            // 引入store中的数据
-            dataSource={this.state.list} 
-            renderItem={(item, idx) => (
-            <List.Item style={{paddingLeft: '20px'}} onClick={this.deleteItem.bind(this, idx)}>{item}</List.Item>
-          )} />
-        </div>
-      </div>
+      // <div>
+      //   <div>
+      //     <Input 
+      //       placeholder={this.state.inputValue} 
+      //       style={{width: '200px', margin:'10px 10px'}} 
+      //       onChange={this.changeInputValue} />
+      //     <Button onClick={this.handleClick} type="primary">增加</Button>
+      //   </div>
+      //   <div>
+      //     <List 
+      //       // 引入store中的数据
+      //       dataSource={this.state.list} 
+      //       renderItem={(item, idx) => (
+      //       <List.Item style={{paddingLeft: '20px'}} onClick={this.deleteItem.bind(this, idx)}>{item}</List.Item>
+      //     )} />
+      //   </div>
+      // </div>
+      
+      // 引入样式组件，逻辑和样式分离。通过属性的方式向子组件传值
+      <NoStateTodoListUI 
+        inputValue={this.state.inputValue}
+        list={this.state.list}
+        changeInputValue={this.changeInputValue}
+        handleClick={this.handleClick}
+        deleteItem={this.deleteItem}
+      />
      )
   }
   changeInputValue(e) {
