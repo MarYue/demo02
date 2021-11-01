@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+// import { Redirect  } from 'react-router' // 页面重定向
+
 // import 'antd/dist/antd.css'
 // import { Input, Button, List } from 'antd'
 import store from './store'  // 引入store数据仓库
@@ -16,6 +18,10 @@ import { changeInputAction, addItemAction, deleteItemAction } from './store/acti
 class TodoList extends Component {
   constructor(props) {
     super(props)
+
+    // // 页面的重定向（编程式，适合用在复杂场景）
+    // this.props.history.push('/')
+
     // 引入store中的数据
     this.state = store.getState()
     this.changeInputValue = this.changeInputValue.bind(this)
@@ -55,7 +61,17 @@ class TodoList extends Component {
         handleClick={this.handleClick}
         deleteItem={this.deleteItem}
       />
+
+      // 页面的重定向（标签式，适合用在简单场景）
+      // <Redirect to="/"></Redirect>
      )
+  }
+  // 在组件中接收路由传递过来的值，值在 this.props.match 中
+  componentDidMount() {
+    // console.log(this.props.match)
+    // { path: '...', url: '...', isExact: true, params: {id: xxx}}
+    let tempId = this.props.match.params.id
+    this.setState({ id: tempId })
   }
   changeInputValue(e) {
     // 要改变redux里state的值就要创建action，action是一个对象，一般有两个属性：1.对action的描述 2.要改变的值
